@@ -1,0 +1,14 @@
+paths:
+  /tasks:
+    post:
+      tags:
+        - "Tasks"
+      summary: "Adding Task entry"
+      description: "Saves the task's data in DB. Returns the task id and message"
+      requestBody:
+        $ref: '#/components/requestBodies/CreateTaskRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/CreateTaskResponse'
+        422:
+          $ref: '#/components/responses/InvalidInputResponse'

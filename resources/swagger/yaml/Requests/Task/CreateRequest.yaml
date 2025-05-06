@@ -1,0 +1,35 @@
+components:
+  requestBodies:
+    CreateTaskRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - title
+              - create_date
+              - priority
+              - category
+              - status
+            properties:
+              title:
+                type: string
+                example: "Задача1"
+              description:
+                type: string
+                example: "Задача1 описание"
+              due_date:
+                type: string
+                example: "2025-01-20T15:00:00"
+              create_date:
+                type: string
+                example: "2025-01-20T15:00:00"
+              priority:
+                type: string
+                example: "высокий"
+              category:
+                type: string
+                example: "Работа"
+              status:
+                type: string
+                example: "не выполнена"

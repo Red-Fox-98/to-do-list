@@ -1,0 +1,16 @@
+paths:
+  /tasks/{id}:
+    post:
+      tags:
+        - "Tasks"
+      summary: "Update Task entry"
+      description: "Modifying a specific record in the database. Returns the status"
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateTaskRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/UpdateTaskResponse'
+        422:
+          $ref: '#/components/responses/InvalidInputResponse'
+        404:
+          $ref: '#/components/responses/NotFoundResponse'

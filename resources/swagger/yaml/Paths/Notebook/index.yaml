@@ -1,0 +1,12 @@
+paths:
+  /tasks:
+    get:
+      tags:
+        - "Tasks"
+      summary: "Index Task entry"
+      description: "Returns a specific page with a list of tasks entries from a database"
+      requestBody:
+        $ref: '#/components/requestBodies/IndexTaskRequest'
+      responses:
+        200:
+          $ref: '#/components/responses/IndexTaskResponse'

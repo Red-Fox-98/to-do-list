@@ -1,0 +1,18 @@
+paths:
+  /tasks/{id}:
+    get:
+      tags:
+        - "Tasks"
+      summary: "Show Task entry"
+      description: "Returns a task record from the database"
+      parameters:
+        - name: "id"
+          description: "Task id"
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          $ref: '#/components/responses/ShowTaskResponse'
+        404:
+          $ref: '#/components/responses/NotFoundResponse'

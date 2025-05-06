@@ -1,0 +1,18 @@
+paths:
+  /tasks/{id}:
+    delete:
+      tags:
+        - "Tasks"
+      summary: "Deleting Task entry"
+      description: "Deletes the task's data in DB. Returns the status"
+      parameters:
+        - name: "id"
+          description: "Task id"
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          $ref: '#/components/responses/DeleteTaskResponse'
+        404:
+          $ref: '#/components/responses/NotFoundResponse'

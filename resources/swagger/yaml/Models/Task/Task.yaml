@@ -1,0 +1,28 @@
+components:
+  schemas:
+    Task:
+      type: object
+      required:
+        - id
+        - title
+        - create_date
+        - priority
+        - category
+        - status
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        due_date:
+          type: string
+        create_date:
+          type: string
+        priority:
+          type: string
+        category:
+          type: string
+        status:
+          type: string

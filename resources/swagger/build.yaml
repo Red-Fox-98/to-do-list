@@ -1,0 +1,450 @@
+openapi: 3.0.0
+info:
+  title: TaskApp
+  description: Task notes app
+  version: 0.0.1
+tags:
+  - name: "Task"
+    description: "Tasks list"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Task:
+      type: object
+      required:
+        - id
+        - title
+        - create_date
+        - priority
+        - category
+        - status
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        due_date:
+          type: string
+        create_date:
+          type: string
+        priority:
+          type: string
+        category:
+          type: string
+        status:
+          type: string
+    Pagination:
+      type: object
+      required:
+        - count
+        - total
+        - perPage
+        - currentPage
+        - totalPages
+        - links
+      properties:
+        count:
+          type: integer
+          description: "amount of items on current page"
+        total:
+          type: integer
+          description: "amount of items on all pages"
+        perPage:
+          type: integer
+          description: "items limit per page"
+        currentPage:
+          type: integer
+          description: "number of a currently displayed page"
+        totalPages:
+          type: integer
+          description: "amount of pages"
+        links:
+          type: object
+          description: "links for paginator such as 'next/previous/last/first' page"
+  parameters:
+    query:
+      in: query
+      name: query
+      description: search query
+      schema:
+        type: string
+    paginationPage:
+      in: query
+      name: page
+      description: a page to be displayed
+      schema:
+        type: integer
+    paginationPerPage:
+      in: query
+      name: perPage
+      description: amount of results per each page
+      schema:
+        type: integer
+  requestBodies:
+    CreateTaskRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - title
+              - create_date
+              - priority
+              - category
+              - status
+            properties:
+              title:
+                type: string
+                example: "Задача1"
+              description:
+                type: string
+                example: "Задача1 описание"
+              due_date:
+                type: string
+                example: "2025-01-20T15:00:00"
+              create_date:
+                type: string
+                example: "2025-01-20T15:00:00"
+              priority:
+                type: string
+                example: "высокий"
+              category:
+                type: string
+                example: "Работа"
+              status:
+                type: string
+                example: "не выполнена"
+    IndexTaskRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - page
+            properties:
+              search:
+                type: string
+                example: "Задача1"
+              sort:
+                type: string
+                example: "due_date"
+              page:
+                type: integer
+                example: 2
+              perPage:
+                type: integer
+                example: 5
+    UpdateTaskRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              title:
+                type: string
+                example: "Задача2"
+              description:
+                type: string
+                example: "Задача2 описание обновленное"
+              due_date:
+                type: string
+                example: "2025-01-25T18:00:00"
+              priority:
+                type: string
+                example: "низкий"
+              status:
+                type: string
+                example: "выполнена"
+  responses:
+    CreateTaskResponse:
+      description: "successful operation"
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - success
+              - data
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              data:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 7
+                  message:
+                    type: string
+                    example: "Task created successfully"
+    DeleteTaskResponse:
+      description: "successful operation"
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - success
+              - data
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              data:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Task deleted successfully"
+    IndexTaskResponse:
+      description: "successful operation"
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - success
+              - data
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              data:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Task'
+    ShowTaskResponse:
+      description: "successful operation"
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - success
+              - data
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              data:
+                $ref: '#/components/schemas/Task'
+    UpdateTaskResponse:
+      description: "successful operation"
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - success
+              - data
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              data:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Task updated successfully"
+    EmptyResponse:
+      description: "returned primarily on delete requests"
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - success
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+    InvalidInputResponse:
+      description: "contains validations error messages"
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - success
+            properties:
+              status:
+                type: integer
+                example: 422
+              success:
+                type: boolean
+                example: false
+              errors:
+                type: array
+                items:
+                  type: object
+                  required:
+                    - validation
+                  properties:
+                    validation:
+                      type: object
+    ModelIdResponse:
+      description: "Entity was successfully created"
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - success
+              - data
+            properties:
+              status:
+                type: integer
+                example: 200
+              success:
+                type: boolean
+                example: true
+              data:
+                type: object
+                required:
+                  - id
+                properties:
+                  id:
+                    type: integer
+    NotFoundResponse:
+      description: "Some of entities required to complete request wasn't found"
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - success
+            properties:
+              status:
+                type: integer
+                example: 404
+              success:
+                type: boolean
+                example: false
+              errors:
+                type: object
+    NoAccessResponse:
+      description: "User is not authorized or not enough permissions"
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - status
+              - success
+            properties:
+              status:
+                type: integer
+                example: 401
+              success:
+                type: boolean
+                example: false
+              errors:
+                type: object
+security:
+  - bearerAuth: []
+paths:
+  /tasks:
+    post:
+      tags:
+        - "Tasks"
+      summary: "Adding Task entry"
+      description: "Saves the task's data in DB. Returns the task id and message"
+      requestBody:
+        $ref: '#/components/requestBodies/CreateTaskRequest'
+      responses:
+        "200":
+          $ref: '#/components/responses/CreateTaskResponse'
+        "422":
+          $ref: '#/components/responses/InvalidInputResponse'
+    get:
+      tags:
+        - "Tasks"
+      summary: "Index Task entry"
+      description: "Returns a specific page with a list of tasks entries from a database"
+      requestBody:
+        $ref: '#/components/requestBodies/IndexTaskRequest'
+      responses:
+        "200":
+          $ref: '#/components/responses/IndexTaskResponse'
+  /tasks/{id}:
+    delete:
+      tags:
+        - "Tasks"
+      summary: "Deleting Task entry"
+      description: "Deletes the task's data in DB. Returns the status"
+      parameters:
+        - name: "id"
+          description: "Task id"
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: '#/components/responses/DeleteTaskResponse'
+        "404":
+          $ref: '#/components/responses/NotFoundResponse'
+    get:
+      tags:
+        - "Tasks"
+      summary: "Show Task entry"
+      description: "Returns a task record from the database"
+      parameters:
+        - name: "id"
+          description: "Task id"
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: '#/components/responses/ShowTaskResponse'
+        "404":
+          $ref: '#/components/responses/NotFoundResponse'
+    post:
+      tags:
+        - "Tasks"
+      summary: "Update Task entry"
+      description: "Modifying a specific record in the database. Returns the status"
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateTaskRequest'
+      responses:
+        "200":
+          $ref: '#/components/responses/UpdateTaskResponse'
+        "422":
+          $ref: '#/components/responses/InvalidInputResponse'
+        "404":
+          $ref: '#/components/responses/NotFoundResponse'

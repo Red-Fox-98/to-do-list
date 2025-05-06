@@ -1,0 +1,23 @@
+components:
+  requestBodies:
+    IndexTaskRequest:
+      content:
+        application/json:
+          schema:
+            type: object
+            required:
+              - page
+            properties:
+              search:
+                type: string
+                example: "Задача1"
+              sort:
+                type: string
+                example: "due_date"
+              page:
+                type: integer
+                example: 2
+              perPage:
+                type: integer
+                example: 5
+
